@@ -1,0 +1,49 @@
+#grad {
+    background-image: linear-gradient(to right, rgb(50, 59, 224) , rgb(117, 182, 248));
+  }
+
+header {
+    text-align: center;
+    padding: 15px;
+}
+
+main{
+    display: flex;
+}
+
+h2{
+    margin-top: 20px;
+}
+
+h4{
+    margin-top: 20px;
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+button{
+    width: 100%;
+    margin-top: 10px;
+}
+
+.current-city{
+    margin-top: 15px;
+    padding: 10px;
+    border-style: solid;
+}
+
+article{
+    background-color: rgb(0, 157, 255);
+    padding: 20px;
+    margin: 20px;
+}
+
+.five-day-forecast{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
