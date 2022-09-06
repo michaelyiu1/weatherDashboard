@@ -1,8 +1,16 @@
-// creating variables for buttons
+// creating variables for button
 var submitBtn = $('.btn');
+var currentWeather = $('.current-weather');
+var currentTemp = $('.current-temp');
+var currentHumidity = $('.current-humidity');
+var currentWind = $('.current-wind');
+var currentUV = $('.current-uv');
+var currentCityDate = $('.current-city-date');
+console.log(currentCityDate);
 
 
 
+// Function that will run once search button is clicked. API call will be made based on the user input
 function getWeatherData(event){
 
     var input = event.target.dataset.input;
@@ -17,21 +25,34 @@ function getWeatherData(event){
 
     fetch(coordinateRequestUrl)
      .then(function (response) {
+      console.log(response.status);\
       return response.json();
-     console.log(response);
     })
   .then(function (data) {
-    console.log(data);
-    console.log(data.weather[0].description);
+
+    if(data.cod === 200){
+        var newButton = document.createElement("button");
+      }
 
     var city = data.name;
-    var weather = data.weather[0].main;
-    var temperature = data.temp;
+    var weather = data.weather[0].description;
+    var temperature = data.main.temp;
+    temperature = Number(temperature);
+    temperature = (temperature - 273.15)*9/5+32; 
+    temperature = Math.trunc(temperature);
     var humidity = data.main.humidity;
     var windSpeed = data.wind.speed;
-    var lat = data.coord.lat;
-    var lon = data.coord.lon;
-    console.log(city);
+
+    var date = moment().format('l');
+
+
+    currentCityDate.text(city + ' ' + date);
+    currentWeather.text('Current Weather: ' + weather);
+    currentTemp.text('Temp: ' + temperature + " °F");
+    currentWind.text('Wind: ' + windSpeed + "mph");
+    currentHumidity.text('Humidity: ' + humidity + '%');
+
+
   });
 }
 

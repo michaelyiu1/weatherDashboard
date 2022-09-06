@@ -40,10 +40,15 @@ article{
     background-color: rgb(0, 157, 255);
     padding: 20px;
     margin: 20px;
+    border-radius: 5px;
 }
 
 .five-day-forecast{
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.weather-display{
+    visibility: visible;
 }
