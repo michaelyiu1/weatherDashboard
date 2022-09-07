@@ -1,5 +1,5 @@
 // creating variables by element class names 
-var submitBtn = $('.btn');
+var submitBtn = $('.submit');
 var currentWeather = $('.current-weather');
 var currentTemp = $('.current-temp');
 var currentHumidity = $('.current-humidity');
@@ -47,13 +47,17 @@ var cityArray = [];
 function getWeatherData(event){
 
     //Getting the user input and integrating it to an API URL
-    var input = event.target.dataset.input;
-    var inputText = $(input).val();
-    inputText = inputText.split(" ").join("");
-    var coordinateRequestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + inputText + '&appid=9609bbba160c117307dfce14de7020ea';
+    if(event.target.dataset.input === "#city-state"){
+      var input = event.target.dataset.input;
+      var inputText = $(input).val().split(" ").join("");
+    } else if(event.target.classList.contains('search-history') === true){
+      var inputText = event.target.textContent;
+    }
+
+    var requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + inputText + '&appid=9609bbba160c117307dfce14de7020ea';
 
     //Fetch data from API URL
-    fetch(coordinateRequestUrl)
+    fetch(requestUrl)
      .then(function (response) {
       if(response.status === 200){
         weatherDisplay.css("visibility", "visible");
@@ -81,18 +85,20 @@ function getWeatherData(event){
     currentHumidity.text('Humidity: ' + humidity + '%');
 
     //Creating new button for the city searched
-    if(data.cod === 200){
+    if(cityArray.includes(city) === false){
       var newButton = document.createElement("button");
-      newButton.classList.add(city, 'btn', 'btn-outline-primary');
+      newButton.classList.add('search-history', 'btn', 'btn-outline-primary');
+      newButton.setAttribute('type','button');
       newButton.textContent = city;
       newCityButton.append(newButton);
+      cityArray.push(city);
+      console.log(newButton);
+      $('.search-history').on('click', getWeatherData);
     };
 
     //Call 5 day weather forecast function
     forecast(inputText);
-
   });
-
 };
 
 //function for getting 5 day weather forecast 
@@ -157,8 +163,6 @@ function forecast(input){
       day3humidity.text('Humidity: ' + data.list[20].main.humidity + '%');
       day4humidity.text('Humidity: ' + data.list[28].main.humidity + '%');
       day5humidity.text('Humidity: ' + data.list[36].main.humidity + '%');
-
-
   })
 };
 
