@@ -49,7 +49,7 @@ function getWeatherData(event){
     //Getting the user input and integrating it to an API URL
     if(event.target.dataset.input === "#city-state"){
       var input = event.target.dataset.input;
-      var inputText = $(input).val().split(" ").join("");
+      var inputText = $(input).val();
     } else if(event.target.classList.contains('search-history') === true){
       var inputText = event.target.textContent;
     }
