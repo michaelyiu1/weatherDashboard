@@ -65,8 +65,11 @@ function getWeatherData(event){
       return response.json();
     })
   .then(function (data) {
+    console.log(data);
 
     //Assigning variables for various weather conditions
+    var lat = data.coord.lat;
+    var lon = data.coord.lon;
     var city = data.name;
     var weather = data.weather[0].description;
     var temperature = data.main.temp;
@@ -95,6 +98,31 @@ function getWeatherData(event){
       console.log(newButton);
       $('.search-history').on('click', getWeatherData);
     };
+
+    //Fetch UV Index
+
+    var uvURL = 'http://api.openweathermap.org/data/2.5/uvi?appid=9609bbba160c117307dfce14de7020ea&lat=' + lat + '&lon=' + lon;
+    fetch(uvURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      var uvi = data.value;
+      
+      if(uvi < 3){
+        var condition = '🟩'; 
+      } else if (uvi >= 3 && uvi < 6){
+        var condition = '🟨';
+      } else if (uvi >= 6 && uvi < 8){
+        var condition = '🟧';
+      } else {
+        var condition = '🟥';
+      }
+      
+      currentUV.text('UV Index: ' + uvi + condition);
+    })
+
 
     //Call 5 day weather forecast function
     forecast(inputText);
