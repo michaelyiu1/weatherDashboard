@@ -80,9 +80,17 @@ function getWeatherData(event){
     var windSpeed = data.wind.speed;
     var date = moment().format('l');
 
+    if(weather.includes('cloud')){
+      var emoji = '☁️';
+    } else if (weather.includes('clear')){
+      var emoji = '☀️';
+    } else if (weather.includes('rain') || weather.includes('drizzle')){
+      var emoji = '🌧️';
+    }
+
     //Assigning text for different weather conditions
     currentCityDate.text(city + ' ' + date);
-    currentWeather.text('Current Weather: ' + weather);
+    currentWeather.text('Current Weather: ' + weather + emoji);
     currentTemp.text('Temp: ' + temperature + " °F");
     currentWind.text('Wind: ' + windSpeed + "mph");
     currentHumidity.text('Humidity: ' + humidity + '%');
@@ -119,7 +127,7 @@ function getWeatherData(event){
       } else {
         var condition = '🟥';
       }
-      
+
       currentUV.text('UV Index: ' + uvi + condition);
     })
 
@@ -149,11 +157,26 @@ function forecast(input){
       day4date.text(moment().add(4, 'd').format('l'));
       day5date.text(moment().add(5, 'd').format('l'));
 
-      day1weather.text(data.list[4].weather[0].description);
-      day2weather.text(data.list[12].weather[0].description);
-      day3weather.text(data.list[20].weather[0].description);
-      day4weather.text(data.list[28].weather[0].description);
-      day5weather.text(data.list[36].weather[0].description);
+      var weatherEmoji = [];
+      for(i=4; i<40; i+=8){
+        var forecastWeather = data.list[i].weather[0].description;
+        console.log(forecastWeather);
+        if(forecastWeather.includes('cloud')){
+          var emoji2 = '☁️';
+        } else if (forecastWeather.includes('clear')){
+          var emoji2 = '☀️';
+        } else if (forecastWeather.includes('rain')){
+          var emoji2 = '🌧️';
+        }
+        weatherEmoji.push(emoji2);
+      }
+      console.log(weatherEmoji);
+
+      day1weather.text(data.list[4].weather[0].description + weatherEmoji[0]);
+      day2weather.text(data.list[12].weather[0].description + weatherEmoji[1]);
+      day3weather.text(data.list[20].weather[0].description + weatherEmoji[2]);
+      day4weather.text(data.list[28].weather[0].description + weatherEmoji[3]);
+      day5weather.text(data.list[36].weather[0].description + weatherEmoji[4]);
 
       var temp1 = data.list[4].main.temp;
       temp1 = (Number(temp1) - 273.15)*9/5+32;
