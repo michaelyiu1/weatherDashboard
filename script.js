@@ -118,6 +118,7 @@ function getWeatherData(event){
       console.log(data);
       var uvi = data.value;
       
+      //UV index 
       if(uvi < 3){
         var condition = '🟩'; 
       } else if (uvi >= 3 && uvi < 6){
