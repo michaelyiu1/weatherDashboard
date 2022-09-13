@@ -132,7 +132,6 @@ function getWeatherData(event){
       currentUV.text('UV Index: ' + uvi + condition);
     })
 
-
     //Call 5 day weather forecast function
     forecast(inputText);
   });
